@@ -50,8 +50,8 @@ module.exports = {
     'linebreak-style': 0,
     'no-unexpected-multiline': 'warn',
     'keyword-spacing': 1,
-    'comma-dangle': 1,
+    'comma-dangle': ["error", "never"],
     'comma-spacing': 1,
-    'arrow-spacing': 1
+    'arrow-spacing': 1,
   },
 }
