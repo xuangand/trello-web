@@ -32,7 +32,7 @@ function Column({ column }) {
     // https://github.com/clauderic/dnd-kit/issues/117
     transform: CSS.Translate.toString(transform),
     transition,
-    height: '1000%',
+    height: '100%',
     opacity: isDragging ? 0.5 : undefined
   }
 
