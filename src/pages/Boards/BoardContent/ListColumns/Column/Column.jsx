@@ -168,6 +168,7 @@ function Column({ column }) {
                 size='small'
                 variant='outlined'
                 autoFocus
+                data-no-dnd='true'
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 sx={{
@@ -182,7 +183,7 @@ function Column({ column }) {
                     '&:hover fieldset': { bordercolor: (theme) => theme.palette.primary.main },
                     '&.Mui-focused fieldset': { bordercolor: (theme) => theme.palette.primary.main }
                   },
-                  '& .MuiOutlinedInput-input':{
+                  '& .MuiOutlinedInput-input': {
                     borderRadius: 1
                   }
                 }}
@@ -190,6 +191,7 @@ function Column({ column }) {
               />
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Button
+                  data-no-dnd='true'
                   onClick={addNewCard}
                   variant='contained' color='success' size='small'
                   sx={{
@@ -200,6 +202,7 @@ function Column({ column }) {
                   }}
                 >Add</Button>
                 <CloseIcon
+                  data-no-dnd='true'
                   fontSize='small'
                   sx={{
                     color: (theme) => theme.palette.warning.light,
