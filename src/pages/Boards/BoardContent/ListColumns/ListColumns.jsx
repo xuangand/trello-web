@@ -1,9 +1,10 @@
+import { useState } from 'react'
+import { toast } from 'react-toastify'
 import Box from '@mui/material/Box'
 import Column from './Column/Column'
 import Button from '@mui/material/Button'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
-import { useState } from 'react'
 import { TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -12,7 +13,7 @@ function ListColumns({ columns }) {
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm) //Nếu openNewColumnForm = false thì khi gọi togglOpenNewColumn, openNewColumnForm sẽ được chuyển sang true, và ngược lại
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const addNewColumn = () => {
-    if (!newColumnTitle) return //console.log('error')
+    if (!newColumnTitle) return toast.error('Please enter Column title!')
     //Gọi API ở đây
 
     //Đóng trạng thái thêm column mới và clear input

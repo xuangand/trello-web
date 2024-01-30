@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -49,7 +50,7 @@ function Column({ column }) {
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm) //Nếu openNewCardForm = false thì khi gọi togglOpenNewCard, openNewCardForm sẽ được chuyển sang true, và ngược lại
   const [newCardTitle, setNewCardTitle] = useState('')
   const addNewCard = () => {
-    if (!newCardTitle) return //console.log('error')
+    if (!newCardTitle) return toast.error('Please enter card title!', { position: 'bottom-right' })
     //Gọi API ở đây
 
     //Đóng trạng thái thêm Card mới và clear input
