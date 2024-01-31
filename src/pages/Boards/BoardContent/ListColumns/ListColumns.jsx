@@ -8,13 +8,25 @@ import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortabl
 import { TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm) //Nếu openNewColumnForm = false thì khi gọi togglOpenNewColumn, openNewColumnForm sẽ được chuyển sang true, và ngược lại
   const [newColumnTitle, setNewColumnTitle] = useState('')
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) return toast.error('Please enter Column title!')
-    //Gọi API ở đây
+
+    //Tạo dữ liệu để gọi API
+    const newColumnData = {
+      title: newColumnTitle
+    }
+
+    /**
+     * Gọi lên prop function createNewcolumn nằm ở component cha cao nhất (Boards/_id.jsx)
+     * Lưu ý, về sau ta sẽ đưa dữ liệu Board ra ngoài Redux Global Store thì lúc này chúng ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi ngược lên những component cha phía bên trên. (Đối với component con nằm càng sâu thì càng khổ)
+     * Với việc sử dụng Redux như vậy thì code sẽ clean hơn rất nhiều.
+     */
+
+    await createNewColumn(newColumnData)
 
     //Đóng trạng thái thêm column mới và clear input
     toggleOpenNewColumnForm()
@@ -34,7 +46,7 @@ function ListColumns({ columns }) {
       }}>
 
         {/* Box Column*/}
-        {columns?.map(column => <Column key={column._id} column={column} />)}
+        {columns?.map(column => <Column key={column._id} column={column} createNewCard={createNewCard} />)}
 
         {/* Box add new column */}
         {!openNewColumnForm
