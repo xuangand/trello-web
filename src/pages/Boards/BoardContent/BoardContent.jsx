@@ -31,7 +31,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_CARD'
 }
 
-function BoardContent({ board, createNewColumn, createNewCard }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumn }) {
   // https://docs.dndkit.com/api-documentation/sensors
   // Nếu dùng PointerSensor thì mặc định phải kết hợp thuộc tính CSS touch-action: none ở nhưng phần tử kéo thả - nhưng mà còn bug
   //const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -263,9 +263,16 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
         // Dùng arrayMove của thằng dnd-Kit để sắp xếp lại mảng Columns ban đầu
         //Code của arrayMove ở đây: https://github.com/clauderic/dnd-kit/tree/master/packages/sortable/src/utilities/arrayMove.ts
         const dndOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
-        // const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
+
+        /**
+       * Gọi lên prop function moveColumn nằm ở component cha cao nhất (Boards/_id.jsx)
+       * Lưu ý, về sau ta sẽ đưa dữ liệu Board ra ngoài Redux Global Store thì lúc này chúng ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi ngược lên những component cha phía bên trên. (Đối với component con nằm càng sâu thì càng khổ)
+       * Với việc sử dụng Redux như vậy thì code sẽ clean hơn rất nhiều.
+       */
+        moveColumn(dndOrderedColumns)
 
         // Cập nhật lại state columns ban đầu sau khi đã kéo thả
+        //Vẫn gọi update State ở đây để tránh delay hoặc flickering giao diện lúc kéo thả khi cần phải chờ gọi API, phía front-end sẽ thấy column đã được kéo thả, nhưng state được update lại behind the scence có thể sẽ chậm hơn (small trick)
         setOrderedColumns(dndOrderedColumns)
       }
     }
