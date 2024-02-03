@@ -18,7 +18,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import AddCardIcon from '@mui/icons-material/AddCard'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
-import { mapOrder } from '~/utils/sorts'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { TextField } from '@mui/material'
@@ -44,12 +43,13 @@ function Column({ column, createNewCard }) {
   const handleClick = (event) => { setAnchorEl(event.currentTarget) }
   const handleClose = () => { setAnchorEl(null) }
 
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+  //Card đã được sắp xếp ở component cha cao nhất (video 71)
+  const orderedCards = column.cards
 
   const [openNewCardForm, setOpenNewCardForm] = useState(false)
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm) //Nếu openNewCardForm = false thì khi gọi togglOpenNewCard, openNewCardForm sẽ được chuyển sang true, và ngược lại
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = async () => {
+  const addNewCard = () => {
     if (!newCardTitle) return toast.error('Please enter card title!', { position: 'bottom-right' })
 
     //Gọi API ở đây
@@ -64,7 +64,7 @@ function Column({ column, createNewCard }) {
      * Lưu ý, về sau ta sẽ đưa dữ liệu Board ra ngoài Redux Global Store thì lúc này chúng ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi ngược lên những component cha phía bên trên. (Đối với component con nằm càng sâu thì càng khổ)
      * Với việc sử dụng Redux như vậy thì code sẽ clean hơn rất nhiều.
      */
-    await createNewCard(newCardData)
+    createNewCard(newCardData)
 
     //Đóng trạng thái thêm Card mới và clear input
     toggleOpenNewCardForm()
