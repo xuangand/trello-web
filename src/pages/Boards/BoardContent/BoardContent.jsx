@@ -30,7 +30,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_CARD'
 }
 
-function BoardContent({ board, createNewColumn, createNewCard, moveColumn, moveCardInTheSameColumn, moveCardToDifferentColumn }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumn, moveCardInTheSameColumn, moveCardToDifferentColumn, deleteColumnDetails }) {
   // https://docs.dndkit.com/api-documentation/sensors
   // Nếu dùng PointerSensor thì mặc định phải kết hợp thuộc tính CSS touch-action: none ở nhưng phần tử kéo thả - nhưng mà còn bug
   //const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -387,6 +387,7 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumn, moveC
           columns={orderedColumns}
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}
+          deleteColumnDetails={deleteColumnDetails}
         />
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDragItemType && null}
